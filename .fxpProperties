@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<fxpProperties abbreviated="false" authoringTool="Flex Builder" compiles="true" parentProject="f8bf1792-bd37-4092-8d0a-5ab14383f36c" projectUUID="f8bf1792-bd37-4092-8d0a-5ab14383f36c" pureCatalystProject="false" sdkVersion="4.15.0" uuid="7281ede0-5add-4f08-9b13-a03baba41d34" version="15">
+  <projects/>
+  <src/>
+  <swc>
+    <linked location="sdkPlaceHolder" path="sdkPlaceHolder" position="0" uuid="7281ede0-5add-4f08-9b13-a03baba41d34"/>
+    <linked location="${FLEXUNIT_LIB_LOCATION}/version4libs/Common/" path="${FLEXUNIT_LIB_LOCATION}/version4libs/Common/" position="1" uuid="8c5e4cbf-54f7-4ad9-8f18-3a5d2c456fca"/>
+    <linked location="${FLEXUNIT_LIB_LOCATION}/version4libs/FlexProject/" path="${FLEXUNIT_LIB_LOCATION}/version4libs/FlexProject/" position="2" uuid="8c5e4cbf-54f7-4ad9-8f18-3a5d2c456fca"/>
+    <linked location="${FLEXUNIT_LOCALE_LOCATION}/version4locale/" path="${FLEXUNIT_LOCALE_LOCATION}/version4locale/" position="3" uuid="8c5e4cbf-54f7-4ad9-8f18-3a5d2c456fca"/>
+    <linked location="E:/Adobe Flash Builder 4.5/alborzsoft/libs" path="/libs" position="4" uuid="6d992285-d6ff-4398-bebb-8b0fc7bd2dd6"/>
+  </swc>
+  <misc/>
+  <theme/>
+  <mxmlFormattingPrefs groupAttributesByState="true" maxLineWidth="100" mxmlAlignAttributes="true" mxmlAttributeOrder="id,userLabel,includeIn,excludeFrom,visible,x,y,z,left,right,top,bottom,width,height,minWidth,minHeight,maxWidth,maxHeight,label" mxmlKeepAttributeValuesOrganized="true"/>
+</fxpProperties>

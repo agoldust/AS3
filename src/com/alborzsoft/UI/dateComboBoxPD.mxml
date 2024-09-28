@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group height="26" width="300"
+		 xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns:s="library://ns.adobe.com/flex/spark"
+		 xmlns:mx="library://ns.adobe.com/flex/mx"
+		 
+		 creationComplete="initi()" >
+	
+	
+	<fx:Metadata>
+		[Event(name="change", type="flash.events.Event")]
+	</fx:Metadata>
+	
+	
+	<fx:Script source="dateComboBoxPD.as" />
+	
+	
+	
+	<s:Group width="100%" height="100%">
+		
+		<s:NumericStepper id="nsYear"	right="250"   width="68" height="100%"	minimum="{baseYear}"	maximum="1450"	stepSize="1" allowValueWrap="true" change="com_changeHandler()"/>
+		<s:NumericStepper id="nsMonth"	height="100%" width="51" right="200"	minimum="1"				maximum="12"	stepSize="1" allowValueWrap="true" change="com_changeHandler()" />
+		<s:NumericStepper id="nsDay" 	height="100%" width="51" right="150"	minimum="1"				maximum="31"	stepSize="1" allowValueWrap="true" change="comDay_changeHandler()"/>
+		
+		<s:Label left="173" height="100%" text="{lable}" textAlign="left" verticalAlign="middle"/>
+
+	</s:Group>
+	
+	
+
+
+</s:Group>

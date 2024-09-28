@@ -1,0 +1,203 @@
+package com.alborzsoft.components
+{
+	/**<p>[[ UNFINISHED ]]  Image component with catch ability</p>
+	 * <p>Creatd By: Akbar Goldust</p>
+	 * <p>Last modification date: Oct 8, 2011</p>
+	 * 
+	 * @langversion 3.0
+	 * @playerversion Flash AIR 1.5
+	 */
+	import com.adobe.images.JPGEncoder;
+	import com.adobe.images.PNGEncoder;
+	import com.alborzsoft.graphic.JPGEncoderProgressive;
+	import com.alborzsoft.graphic.events.ImageResultEvent;
+	import com.alborzsoft.net.Downloader;
+	import com.alborzsoft.utils.StrUtils;
+	import com.alborzsoft.utils.StringUtils;
+	
+	import flash.desktop.NativeApplication;
+	import flash.display.BitmapData;
+	import flash.display.NativeWindow;
+	import flash.events.Event;
+	import flash.events.ProgressEvent;
+	import flash.filesystem.File;
+	import flash.filesystem.FileMode;
+	import flash.filesystem.FileStream;
+	import flash.net.URLLoader;
+	import flash.net.URLLoaderDataFormat;
+	import flash.net.URLRequest;
+	import flash.net.URLStream;
+	import flash.utils.ByteArray;
+	
+	import mx.rpc.events.ResultEvent;
+	
+	import spark.components.Image;
+	
+	
+	
+	//[IconFile("Favicon.png")]
+	
+	
+	
+	public class ImageWithCatch extends Image
+	{
+		
+		private var catchedFile:File;
+		private var fileConverted:Boolean;
+		private var delay:uint = 100; // for saving delay
+		
+		//=============================== METHODS =================================
+		public function ImageWithCatch()
+		{
+			super();
+		}
+		
+		
+		/** <p>Millisecond Gap between Encoding Loaded Image to prevent App High processing<p/>
+		 */
+		public function set saveDelay(milisecond:uint):void 
+		{
+			delay = milisecond;
+		}
+		
+		
+		/** <p>Loading the Image and Saving on HDD and shoing on UI<p/>
+		 * 
+		 * @param <b>url</b> - location of file on web
+		 * @param <b>catchFolder</b> - Catch Folder of Application Storage Directory
+		 * 
+		 * @langversion 3.0
+		 * @playerversion Flash 9, AIR 1.5
+		 */
+		public function load(url:String, catchedFile:File):void 
+		{
+			this.catchedFile = catchedFile;
+			this.fileConverted = false;
+			
+			
+			// checking if file is saved
+			if(catchedFile.exists)
+			{
+				super.source = catchedFile.nativePath;
+			}
+			else if(super.source != url)
+			{
+				var urll:URLLoader = new URLLoader();
+				urll.dataFormat = URLLoaderDataFormat.BINARY
+					
+				urll.addEventListener(Event.COMPLETE, 		  onImageDownloaded);
+				urll.addEventListener(ProgressEvent.PROGRESS, dispatchEvent);
+				
+				urll.load(new URLRequest(url));
+				
+				
+				/*
+				super.source = url;
+				super.addEventListener(Event.COMPLETE, onImageLoaded);
+				*/
+			}
+			
+		}
+		
+		
+		private function onImageDownloaded(event:Event):void
+		{
+			saveByteArray(event.target.data as ByteArray);
+			super.source = catchedFile.nativePath;
+		}
+		
+		
+		private function onImageLoaded(event:Event):void
+		{
+			//checking the file that is proccessing or not
+			var file:File = new File(catchedFile.nativePath + '.tmp');
+			
+			if(file.exists == false)
+			{
+				// making temp file
+				var fs:FileStream = new FileStream;
+				fs.open(file, FileMode.WRITE);
+				fs.close();
+			
+				// deleting the temp files
+				NativeWindow(NativeApplication.nativeApplication.openedWindows[0]).addEventListener(Event.CLOSE, function():void 
+				{
+					if(fileConverted == false && file.exists) file.deleteFile();
+				});
+				
+				
+				// proccessing the Image
+				var jpg:JPGEncoderProgressive = new JPGEncoderProgressive(70);
+				jpg.encode(bitmapData, delay);
+				
+				jpg.addEventListener(ImageResultEvent.COMPLETE, onByteArrayResult);
+				jpg.addEventListener(ProgressEvent.PROGRESS, onByteArrayProgress);
+				
+				super.removeEventListener(Event.COMPLETE, onImageLoaded);
+			}
+			
+		}
+		
+		private function onByteArrayResult(event:ImageResultEvent):void
+		{
+			saveByteArray(event.byteArray);
+			fileConverted = true;
+		}
+		
+		
+		private function saveByteArray(ba:ByteArray):void
+		{
+			//Saving the JPG Image
+			var fs:FileStream = new FileStream;
+			fs.open(catchedFile, FileMode.WRITE);
+			fs.writeBytes(ba);
+			fs.close();
+			
+			//deleting the Temp File
+			var file:File = new File(catchedFile.nativePath + '.tmp');
+			if(file.exists) file.deleteFile();
+		}
+		
+		
+		private function onByteArrayProgress(event:ProgressEvent):void
+		{
+			fileConverted = false;
+			trace('percent: ' + String(int(event.bytesLoaded/event.bytesTotal*100)) + '%');
+		}
+		
+		
+		
+		
+		
+		private function onResult(event:ResultEvent):void 
+		{
+			super.source = File(event.result).nativePath;
+		}
+		
+		private function onProgress(event:ProgressEvent):void
+		{
+			super.source = null;
+			dispatchEvent(event);
+		}
+				
+		
+		/** <p>True When image downloaded and COnverted to JPG and save to HDD<p/>
+		 * 
+		 * @langversion 3.0
+		 * @playerversion Flash 10, AIR 1.5
+		 * @productversion Flex 4
+		 */
+		public function get catched():Boolean 
+		{
+			if(super.source == null) return false;
+			
+			var file:File = new File(super.source as String);
+			
+			return file.exists;
+		}
+		
+		
+		
+		
+	}
+}

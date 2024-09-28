@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Skin 
+		xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		xmlns:s="library://ns.adobe.com/flex/spark"
+		xmlns:TabBar="com.alborzsoft.controls.TabBar.*" 
+		 creationComplete="skin1_creationCompleteHandler(event)"
+		alpha.disabled="0.5" >
+
+	<fx:Metadata>
+		[HostComponent("com.alborzsoft.controls.TabBar.TerrificTabBar")]
+		
+		[Event(name='addTab',type='events.AddTabEvent')]
+	</fx:Metadata>
+	<fx:Script>
+		<![CDATA[
+			import com.alborzsoft.controls.TabBar.events.AddTabEvent;
+			import com.alborzsoft.controls.TabBar.events.TerrificTabBarEvent;
+			
+			import mx.controls.Alert;
+			import mx.core.FlexGlobals;
+			import mx.events.FlexEvent;
+			import mx.events.ResizeEvent;
+			import mx.utils.ObjectUtil;
+			private var totaltab:int = 0;			
+			private var tabwidth:int=0;
+			
+			//Added by Dhwani - Add new Tab
+			public function addTabClickHandler(evt:Event):void{
+				
+				//TerrificTabBarEvent.ADD_NEW_TAB
+				
+				 dispatchEvent(new AddTabEvent(AddTabEvent.ADD_NEW_TAB, true));
+				
+				/*var totaltabwidth:Number=0;
+				
+				totaltab = dataGroup.numChildren;
+				
+				totaltabwidth = dataGroup.width + hostComponent.getTabBarButton(dataGroup.numChildren-1).width + img_addnewtab.width + 3
+			 
+				if(  totaltabwidth < hostComponent.Width){
+					
+					addTabItem("New Tab","assets/icons/icon1.png");
+					
+					for(var i:int=0; i< totaltab ; i++){
+						hostComponent.setTabBarButton(hostComponent.btnmaxwidth ,i);
+						
+						//Set selected tab's close button property visible= true;
+						hostComponent.setCloseableTab(i ,true);
+					}
+					
+					callLater(setTabbar);
+					
+				}else{
+					//resize tabbutton and add new tab
+				
+					var xpos:Number = hostComponent.Width - ( img_addnewtab.width + 3 );//3 is gap between tabbutton and image
+									 
+					addTabItem("New Tab","assets/icons/icon1.png");
+					NewTabbar(xpos);
+					//callLater(NewTabbar,[xpos]);
+				}
+				  */
+			}
+					
+			protected function img_addnewtab_mouseOverHandler(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+				g1.color = 0X555555
+			}
+			
+			protected function img_addnewtab_mouseOutHandler(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+				g1.color = 0XFFFFFF;
+			}
+			
+			
+			protected function skin1_creationCompleteHandler(event:FlexEvent):void
+			{
+				// TODO Auto-generated method stub
+				img_addnewtab.x = hostComponent.btnmaxwidth;
+				img_addnewtab.addEventListener(MouseEvent.CLICK,addTabClickHandler);
+			}
+			
+			protected function img_addnewtab_creationCompleteHandler(event:FlexEvent):void
+			{
+				// TODO Auto-generated method stub
+				
+				hostComponent.addImageWidth = img_addnewtab.width;
+			}
+			
+		]]>
+	</fx:Script>
+
+	<s:states>
+		<s:State name="normal" />
+		<s:State name="disabled" />
+	
+	</s:states>
+<s:Group id="tabgroup"  >
+	
+
+	<s:DataGroup id="dataGroup" >
+		<s:layout>
+			<s:ButtonBarHorizontalLayout gap="-15" id="btnhor" />
+		</s:layout>
+		<s:itemRenderer  >
+			<fx:Component>
+					<TabBar:TerrificTabBarButton />	
+			</fx:Component>
+		</s:itemRenderer>
+		
+	</s:DataGroup>
+	
+	<!-- Added by Dhwani - add new tab functionality -->
+	
+	<s:Group id="img_addnewtab" buttonMode="true" toolTip="Add New Tab"  mouseOut="img_addnewtab_mouseOutHandler(event)"
+			mouseOver="img_addnewtab_mouseOverHandler(event)" creationComplete="img_addnewtab_creationCompleteHandler(event)"  >
+		
+		<s:Path x="-7" y="4" width="30" height="17" alpha="0.5" winding="nonZero" id="normalpath" visible="true">
+			<s:data>M28 12.4424C28 13.3037 27.0508 14 25.877 14L6.125 14C6.125 14 0 2.41895 0 1.55762L0 1.55762C0 0.697266 0.950684 0 2.12305 0L21.875 0C21.875 0 28 11.582 28 12.4424L28 12.4424Z</s:data>
+			
+			<s:fill>
+				<s:LinearGradient x="14.0532" y="-0.207031" scaleX="14.5821" rotation="90.4244" >
+					<s:GradientEntry ratio="0" color="#FFFFFF" id="g1" color.normal="#FFFFFF" />
+					<s:GradientEntry ratio="1" color="#F0F0F0" id="g2" />
+				</s:LinearGradient>
+			</s:fill>
+			
+			<s:stroke>
+				<s:SolidColorStroke caps="none" joints="miter" miterLimit="10" />
+			</s:stroke>
+		</s:Path>
+		
+	</s:Group>
+</s:Group>
+</s:Skin>
